@@ -1,5 +1,5 @@
 let ProduitData;
-
+let list = document.getElementById('info');
 if(localStorage.ProduitList != null) {
     ProduitData = JSON.parse(localStorage.ProduitList)
 }else{
@@ -15,10 +15,10 @@ class produit {
         this.type = type;
         this.Promotion = Promotion;
     }
-    // genre() {
-    //     var getSelectedValue = document.querySelector( 'input[name="Genre"]:checked');
-    //     return getSelectedValue.value;
-    // }
+
+    details() {
+        return list.innerHTML = "<li> Nom du produit : " + this.Nom + "</li>";
+    }
 }
 
 
@@ -77,15 +77,14 @@ function Add(){
             Date.value, type.value, Promotion);
         ProduitData.push(newProduct);
         localStorage.setItem('ProduitList', JSON.stringify(ProduitData));
-        console.log(ProduitData);
+        console.log(newProduct.details());
     }
-
-    
     clear();
 }
 
 function show() {
     let table = document.getElementById('table');
+    table.innerHTML='';
 
     for(let j=0;j<ProduitData.length;j++){
 
@@ -131,18 +130,15 @@ function show() {
     }
 }
 
-
 function deletRow(r) {
     let indexOfRow = (r.parentNode.parentNode.rowIndex) - 1;
-    let table = document.getElementById('table');
-    table.deleteRow(indexOfRow);
-    console.log(indexOfRow);
-    
+   
+    ProduitData.splice(indexOfRow, 1);
+    localStorage.setItem('ProduitList', JSON.stringify(ProduitData));
 }
 
 // Modification function 
 function modification(x) {
-    let table = document.getElementById('table');
     let Nom = document.getElementById('Nom');
     let Marque = document.getElementById('Marque');
     let Prix = document.getElementById('Prix');
@@ -159,38 +155,35 @@ function modification(x) {
 
     console.log(i);
 
-    Nom.value = table.rows[i].cells[0].innerText;
-    Marque.value = table.rows[i].cells[1].innerText;
-    Prix.value = table.rows[i].cells[2].innerText;
-    Date.value = table.rows[i].cells[3].innerText;
-    type.value = table.rows[i].cells[4].innerText;
-    const radio = table.rows[i].cells[5].innerHTML;
+    Nom.value = ProduitData[i].Nom;
+    Marque.value = ProduitData[i].Marque
+    Prix.value = ProduitData[i].Prix
+    Date.value = ProduitData[i].Date
+    type.value = ProduitData[i].type
+    const radio = ProduitData[i].Promotion
     if ( radio == "Oui") {
         Promo.checked = true; 
     } else {
         noPromo.checked = true; 
     }
-
     ModiButton.onclick = function Update() {
-
         let getSelectedValue = document.querySelector( 'input[name="Promotion"]:checked');
         let Promotion = getSelectedValue.value;
         addButton.setAttribute("class", "btn btn-primary d-inline-block");
         ModiButton.setAttribute("class","d-none");
 
-        table.rows[i].cells[0].innerText = Nom.value;
-        table.rows[i].cells[1].innerText = Marque.value;
-        table.rows[i].cells[2].innerText = Prix.value;
-        table.rows[i].cells[3].innerText = Date.value;
-        table.rows[i].cells[4].innerText = type.value;
-        table.rows[i].cells[5].innerText = Promotion;
+        ProduitData[i].Nom = Nom.value;
+        ProduitData[i].Marque = Marque.value;
+        ProduitData[i].Prix = Prix.value;
+        ProduitData[i].Date = Date.value;
+        ProduitData[i].type = type.value;
+        ProduitData[i].Promotion = Promotion;
 
+        localStorage.setItem('ProduitList', JSON.stringify(ProduitData));
+    
         clear();
     }
-    
-    
 }
-
 function clear(){
     document.getElementById('Nom').value = '';
     document.getElementById('Marque').value = '';
