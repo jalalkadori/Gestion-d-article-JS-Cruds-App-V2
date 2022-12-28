@@ -1,5 +1,7 @@
 let ProduitData;
 let list = document.getElementById('info');
+let table = document.getElementById('table');
+
 if(localStorage.ProduitList != null) {
     ProduitData = JSON.parse(localStorage.ProduitList)
 }else{
@@ -17,7 +19,13 @@ class produit {
     }
 
     details() {
-        return list.innerHTML = "<li> Nom du produit : " + this.Nom + "</li>";
+        return list.innerHTML = 
+        "<li> Nom du produit : " + this.Nom + "</li>" +
+        "<li> La Marque du produit : " + this.Marque + "</li>" +
+        "<li> Le prix du produit : " + this.Prix + "</li>" +
+        "<li> La date de production : " + this.Date + "</li>" +
+        "<li> Le type du produit : " + this.type + "</li>" +
+        "<li> Produit en promotion ? : " + this.Promotion + "</li>" ;
     }
 }
 
@@ -78,7 +86,9 @@ function Add(){
         ProduitData.push(newProduct);
         localStorage.setItem('ProduitList', JSON.stringify(ProduitData));
         console.log(newProduct.details());
+        
     }
+    
     clear();
 }
 
@@ -135,6 +145,7 @@ function deletRow(r) {
    
     ProduitData.splice(indexOfRow, 1);
     localStorage.setItem('ProduitList', JSON.stringify(ProduitData));
+    show()
 }
 
 // Modification function 
@@ -182,6 +193,7 @@ function modification(x) {
         localStorage.setItem('ProduitList', JSON.stringify(ProduitData));
     
         clear();
+        show()
     }
 }
 function clear(){
