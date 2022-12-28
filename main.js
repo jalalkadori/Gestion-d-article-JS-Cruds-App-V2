@@ -1,6 +1,3 @@
-
-
-
 function checkInputs(){
     let Nom = document.getElementById('Nom');
     let Marque = document.getElementById('Marque');
