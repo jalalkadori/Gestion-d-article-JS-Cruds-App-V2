@@ -67,14 +67,14 @@
 
                     <div class="form-group">
                         <label for="Promotion">Produit en promotion ? </label> <br>
-                        <label><input type="radio" name="Promotion" id="Oui" class="form-check-input"> Oui</label>
-                        <label><input type="radio" name="Promotion" id="Non" class="form-check-input"> Nom</label>
+                        <label><input type="radio" name="Promotion" id="Oui" class="form-check-input" value="Oui"> Oui</label>
+                        <label><input type="radio" name="Promotion" id="Non" class="form-check-input" value="Non"> Non</label>
                         <span id="PromoOutput"></span>
                     </div>
 
                     <div class="form-group">
-                        <button class="btn btn-primary" onclick="checkInputs()">Ajouter</button>
-                        <button class="btn btn-success">Afficher</button>
+                        <button class="btn btn-primary" id="Ajouter" onclick="Add()">Ajouter</button>
+                        <button class="btn btn-success" id="Afficher">Afficher</button>
                     </div>
 
                 </form>
