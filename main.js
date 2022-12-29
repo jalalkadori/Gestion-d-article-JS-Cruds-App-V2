@@ -1,8 +1,9 @@
 let ProduitData;
-let list = document.getElementById('info');
 let table = document.getElementById('table');
 
-if(localStorage.ProduitList != null) {
+// si le localstorage n'est pas vide on va assigner ses données au tableeau 'ProduitData',
+// le cas contraire on va declarer le tableau vide
+if(localStorage.ProduitList != null) { 
     ProduitData = JSON.parse(localStorage.ProduitList)
 }else{
     ProduitData = [];
@@ -17,18 +18,7 @@ class produit {
         this.type = type;
         this.Promotion = Promotion;
     }
-
-    details() {
-        return list.innerHTML = 
-        "<li> Nom du produit : " + this.Nom + "</li>" +
-        "<li> La Marque du produit : " + this.Marque + "</li>" +
-        "<li> Le prix du produit : " + this.Prix + "</li>" +
-        "<li> La date de production : " + this.Date + "</li>" +
-        "<li> Le type du produit : " + this.type + "</li>" +
-        "<li> Produit en promotion ? : " + this.Promotion + "</li>" ;
-    }
 }
-
 
 function Add(){
     let Nom = document.getElementById('Nom');
@@ -83,24 +73,24 @@ function Add(){
      (Promo.checked || noPromo.checked)) {
         let newProduct = new produit(Nom.value, Marque.value, Prix.value,
             Date.value, type.value, Promotion);
+
         ProduitData.push(newProduct);
+        // integration des données du tableau sur le local storage apres avoir la transformer en formt string
         localStorage.setItem('ProduitList', JSON.stringify(ProduitData));
-        console.log(newProduct.details());
-        
     }
-    
-    clear();
+    show();
+    clearInput();
 }
 
 function show() {
     let table = document.getElementById('table');
     table.innerHTML='';
-
+    
     for(let j=0;j<ProduitData.length;j++){
 
         let row = document.createElement('tr');
 
-        for(let i=0;i< 7; i++) {
+        for(let i=0;i<7; i++) {
             let cell = document.createElement('td');
             let SuppBtn = document.createElement('button');
             let UppdateBtn = document.createElement('button');
@@ -145,7 +135,7 @@ function deletRow(r) {
    
     ProduitData.splice(indexOfRow, 1);
     localStorage.setItem('ProduitList', JSON.stringify(ProduitData));
-    show()
+    show() //Afichage des donnes sur le tableau HTML apres la suppression 
 }
 
 // Modification function 
@@ -163,9 +153,6 @@ function modification(x) {
     addButton.setAttribute("class", "d-none");
     ModiButton.setAttribute("class", "btn btn-info d-inline-block");
     var i = (x.parentNode.parentNode.rowIndex) - 1;
-
-    console.log(i);
-
     Nom.value = ProduitData[i].Nom;
     Marque.value = ProduitData[i].Marque
     Prix.value = ProduitData[i].Prix
@@ -192,11 +179,11 @@ function modification(x) {
 
         localStorage.setItem('ProduitList', JSON.stringify(ProduitData));
     
-        clear();
+        clearInput();
         show()
     }
 }
-function clear(){
+function clearInput(){
     document.getElementById('Nom').value = '';
     document.getElementById('Marque').value = '';
     document.getElementById('Prix').value ='';
